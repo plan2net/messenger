@@ -17,6 +17,7 @@
 	"license": ["GPL-2.0-or-later"],
 	"require": {
 		"typo3/cms-core": "^11.0",
+		"symfony/serializer": "^6.0",
 		"symfony/messenger": "^6.0"
 	},
 	"suggest": {
