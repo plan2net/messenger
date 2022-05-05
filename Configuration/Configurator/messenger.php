@@ -194,7 +194,7 @@ return static function (ContainerConfigurator $container) {
         ->set('messenger.routable_message_bus', RoutableMessageBus::class)
             ->args([
                 abstract_arg('message bus locator'),
-                service('messenger.default_bus'),
+                service('messenger.bus.default'),
             ])
     ;
 };
