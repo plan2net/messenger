@@ -89,7 +89,7 @@ class MessengerConfigPass implements CompilerPassInterface
         }
 
         $failureTransports = [];
-        if ($config['failure_transport']) {
+        if (isset($config['failure_transport'])) {
             if (!isset($config['transports'][$config['failure_transport']])) {
                 throw new LogicException(sprintf('Invalid Messenger configuration: the failure transport "%s" is not a valid transport or service id.', $config['failure_transport']));
             }
@@ -100,10 +100,10 @@ class MessengerConfigPass implements CompilerPassInterface
 
         $failureTransportsByName = [];
         foreach ($config['transports'] as $name => $transport) {
-            if ($transport['failure_transport']) {
+            if (isset($transport['failure_transport'])) {
                 $failureTransports[] = $transport['failure_transport'];
                 $failureTransportsByName[$name] = $transport['failure_transport'];
-            } elseif ($config['failure_transport']) {
+            } elseif (isset($config['failure_transport'])) {
                 $failureTransportsByName[$name] = $config['failure_transport'];
             }
         }
@@ -124,7 +124,7 @@ class MessengerConfigPass implements CompilerPassInterface
             $container->setDefinition($transportId = 'messenger.transport.'.$name, $transportDefinition);
             $senderAliases[$name] = $transportId;
 
-            if (null !== $transport['retry_strategy']['service']) {
+            if (isset($transport['retry_strategy']['service']) && null !== $transport['retry_strategy']['service']) {
                 $transportRetryReferences[$name] = new Reference($transport['retry_strategy']['service']);
             } else {
                 $retryServiceId = sprintf('messenger.retry.multiplier_retry_strategy.%s', $name);
@@ -151,7 +151,7 @@ class MessengerConfigPass implements CompilerPassInterface
         }
 
         foreach ($config['transports'] as $name => $transport) {
-            if ($transport['failure_transport']) {
+            if (isset($transport['failure_transport'])) {
                 if (!isset($senderReferences[$transport['failure_transport']])) {
                     throw new LogicException(sprintf('Invalid Messenger configuration: the failure transport "%s" is not a valid transport or service id.', $transport['failure_transport']));
                 }
